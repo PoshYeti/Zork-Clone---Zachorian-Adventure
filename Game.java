@@ -9,7 +9,7 @@ public class Game
 {
     Scanner info = new Scanner(System.in);
     //The X and Y pos of the player
-    int xPos, yPos, health, coins;
+    int xPos, yPos, health, coins, healthPotion;
     //True for new direction, or items, or if the switch is related to an event
     boolean newInput, sword, shield, armor, map, event, cabinWindowBroken;
     //Different knowledge you can gain/display
@@ -45,6 +45,7 @@ public class Game
         yPos = 0;
         health = 100;
         coins = 0;
+        healthPotion = 0;
     }
     
     //Initiates the game
@@ -104,6 +105,7 @@ public class Game
         {
             System.out.println();
             System.out.println("You've found a forest shrine");
+            System.out.println("In the middle of a large clearing you spot a sword");
             System.out.println("What would you like to do?");
             System.out.println();
             event = true;
@@ -114,6 +116,7 @@ public class Game
         {
             System.out.println();
             System.out.println("You've found a temple to forgotten gods");
+            System.out.println("There appears to be a large stone door blocking your path");
             System.out.println("What would you like to do?");
             System.out.println();
             event = true;
@@ -135,6 +138,7 @@ public class Game
         {
             System.out.println();
             System.out.println("You've found a jungle shrine");
+            System.out.println("In the middle of a large clearing, theres is a small pool of clear water");
             System.out.println("What would you like to do?");
             System.out.println();
             event = true;
@@ -145,6 +149,8 @@ public class Game
         {
             System.out.println();
             System.out.println("You've entered the northern village outskirts");
+            System.out.println("There seems to be a lot of devesation here");
+            System.out.println("The villagers must have left in a hurry");
             System.out.println("What would you like to do?");
             System.out.println();
             event = true;
@@ -155,6 +161,8 @@ public class Game
         {
             System.out.println();
             System.out.println("You've entered the southern village outskirts");
+            System.out.println("There seems to be a lot of devesation here");
+            System.out.println("The villagers must have left in a hurry");
             System.out.println("What would you like to do?");
             System.out.println();
             event = true;
@@ -166,6 +174,7 @@ public class Game
             System.out.println();
             System.out.println("You've entered the village");
             System.out.println("The destrucion of this place is beyond repair");
+            System.out.println("You spot a giant ogre sleeping in the middle of the town");
             System.out.println("What would you like to do?");
             System.out.println();
             event = true;
@@ -176,6 +185,7 @@ public class Game
         {
             System.out.println();
             System.out.println("You've found a boat");
+            System.out.println("There appears to be some fishing gear next to the boat");
             System.out.println("What would you like to do?");
             System.out.println();
             event = true;
@@ -248,9 +258,30 @@ public class Game
                         newInput = false;
                         notebook();
                         break;
+                    case "DRINK POTION" :
+                        if (healthPotion == 0)
+                        {
+                            System.out.println("You don't have any potions");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println("You drank a potion");
+                            System.out.println("Health restored by 30 points (max 100)");
+                            if (health < 70)
+                            {
+                                health += 30;
+                            }
+                            else
+                            {
+                                health = 100;
+                            }
+                        }
+                        checkPosition();
+                        break;
                     case "HINT":
                         System.out.println("You can go in these directions: ");
-                        System.out.println("North, South, East, West");
+                        System.out.println("North, South, East, West, Drink Potion");
                         System.out.println();
                         checkPosition();
                         break;
@@ -330,6 +361,27 @@ public class Game
                         System.out.println();
                         checkPosition();
                         break;
+                    case "DRINK POTION" :
+                        if (healthPotion == 0)
+                        {
+                            System.out.println("You don't have any potions");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println("You drank a potion");
+                            System.out.println("Health restored by 30 points (max 100)");
+                            if (health < 70)
+                            {
+                                health += 30;
+                            }
+                            else
+                            {
+                                health = 100;
+                            }
+                        }
+                        checkPosition();
+                        break;
                     case "LEAVE":
                         System.out.println("You decided to leave the cabin");
                         System.out.println();
@@ -340,7 +392,7 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("These commands are available: ");
-                        System.out.println("Knock, Enter, Break Window, Yell, Leave");
+                        System.out.println("Knock, Enter, Break Window, Yell, Drink Potion, Leave");
                         System.out.println();
                         checkPosition();
                         break;
@@ -385,6 +437,27 @@ public class Game
                         System.out.println();
                         checkPosition();
                         break;
+                    case "DRINK POTION" :
+                        if (healthPotion == 0)
+                        {
+                            System.out.println("You don't have any potions");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println("You drank a potion");
+                            System.out.println("Health restored by 30 points (max 100)");
+                            if (health < 70)
+                            {
+                                health += 30;
+                            }
+                            else
+                            {
+                                health = 100;
+                            }
+                        }
+                        checkPosition();
+                        break;
                     case "LEAVE":
                         System.out.println("You decided to leave forest shrine");
                         System.out.println();
@@ -395,7 +468,7 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("These commands are available: ");
-                        System.out.println("Take Sword, Listen ,Leave");
+                        System.out.println("Take Sword, Listen, Look Around, Drink Potion, Leave");
                         System.out.println();
                         checkPosition();
                         break;
@@ -479,6 +552,34 @@ public class Game
                         System.out.println("You have died");
                         died();
                         break;
+                        
+                    case "DRINK POTION" :
+                        if (healthPotion == 0)
+                        {
+                            System.out.println("You don't have any potions");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println("You drank a potion");
+                            System.out.println("Health restored by 30 points (max 100)");
+                            if (health < 70)
+                            {
+                                health += 30;
+                            }
+                            else
+                            {
+                                health = 100;
+                            }
+                        }
+                        checkPosition();
+                        break;
+                    case "HINT":
+                        System.out.println("These commands are available: ");
+                        System.out.println("Flee, Fight spear goblin, Fight sword goblin, Plead for mercy, Drink Potion");
+                        System.out.println();
+                        checkPosition();
+                        break;
                     default:
                         System.out.println("Your character doesn't know what that means");
                         System.out.println();
@@ -493,12 +594,33 @@ public class Game
                 switch (input)
                 {
                     case "ENTER":
-                        System.out.println("The doors to the ancient temple is locked");
+                        System.out.println("The doors to the ancient temple is deadlocked");
                         System.out.println("There's something shining in the corner of the temple door,");
                         System.out.println("Underneath a pile of leaves and dirt, you find a shield");
                         shield = true;
                         event = false;
                         getInfo();
+                        break;
+                    case "DRINK POTION" :
+                        if (healthPotion == 0)
+                        {
+                            System.out.println("You don't have any potions");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println("You drank a potion");
+                            System.out.println("Health restored by 30 points (max 100)");
+                            if (health < 70)
+                            {
+                                health += 30;
+                            }
+                            else
+                            {
+                                health = 100;
+                            }
+                        }
+                        checkPosition();
                         break;
                     case "LEAVE":
                         System.out.println("You decided to leave the ancient temple");
@@ -510,7 +632,7 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("These commands are available: ");
-                        System.out.println("Leave");
+                        System.out.println("Enter, Drink Potion, Leave");
                         System.out.println();
                         checkPosition();
                         break;
@@ -560,6 +682,27 @@ public class Game
                         System.out.println();
                         checkPosition();
                         break;
+                    case "DRINK POTION" :
+                        if (healthPotion == 0)
+                        {
+                            System.out.println("You don't have any potions");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println("You drank a potion");
+                            System.out.println("Health restored by 30 points (max 100)");
+                            if (health < 70)
+                            {
+                                health += 30;
+                            }
+                            else
+                            {
+                                health = 100;
+                            }
+                        }
+                        checkPosition();
+                        break;
                     case "LEAVE":
                         System.out.println("You decided to leave the lighthouse");
                         System.out.println();
@@ -570,11 +713,11 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("These commands are available: ");
-                        System.out.println("Read Note, Knock, Enter, Yell, Leave");
+                        System.out.println("Read Note, Knock, Enter, Yell, Drink Potion, Leave");
                         System.out.println();
                         checkPosition();
                         break;
-                        default:
+                    default:
                         System.out.println("Your character doesn't know what that means");
                         System.out.println();
                         checkPosition();
@@ -586,6 +729,49 @@ public class Game
             {
                 switch (input)
                 {
+                    case "LISTEN":
+                        System.out.println("You begin to listen");
+                        System.out.println("The sounds of birds pierce the air");
+                        System.out.println("A few crickets decides to play the song of their people");
+                        System.out.println("You can't hear any threat in the area");
+                        checkPosition();
+                        break;
+                    case "LOOK AROUND":
+                        System.out.println("You decide to take a look around");
+                        System.out.println("There is nothing on the ground out of the usual");
+                        System.out.println("This place seems perfectly at peace");
+                        System.out.println();
+                        checkPosition();
+                        break;
+                    case "DRINK WATER":
+                        System.out.println("You decide to drink the water");
+                        System.out.println("A refreshing surge is felt through your body");
+                        System.out.println("Your health have been restored");
+                        System.out.println();
+                        health = 100;
+                        checkPosition();
+                        break;
+                    case "DRINK POTION" :
+                        if (healthPotion == 0)
+                        {
+                            System.out.println("You don't have any potions");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println("You drank a potion");
+                            System.out.println("Health restored by 30 points (max 100)");
+                            if (health < 70)
+                            {
+                                health += 30;
+                            }
+                            else
+                            {
+                                health = 100;
+                            }
+                        }
+                        checkPosition();
+                        break;
                     case "LEAVE":
                         System.out.println("You decided to leave the jungle shrine");
                         System.out.println();
@@ -596,7 +782,7 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("These commands are available: ");
-                        System.out.println("Leave");
+                        System.out.println("Listen, Look around, Drink Water, Drink Potion, Leave");
                         System.out.println();
                         checkPosition();
                         break;
@@ -612,6 +798,43 @@ public class Game
             {
                 switch (input)
                 {
+                    case "LISTEN":
+                        System.out.println("You begin to listen");
+                        System.out.println("There is no sound of animals in this place");
+                        System.out.println("A few crickets decides to play the song of their people");
+                        System.out.println("You can't hear any threat in the area");
+                        checkPosition();
+                        break;
+                    case "LOOK AROUND":
+                        System.out.println("You decide to take a look around");
+                        System.out.println("Looking around you find a few coins and a red drink of some sort");
+                        System.out.println("This place seems perfectly at peace, despite all the destruction");
+                        System.out.println();
+                        checkPosition();
+                        coins += 34;
+                        healthPotion += 1;
+                        break;
+                    case "DRINK POTION" :
+                        if (healthPotion == 0)
+                        {
+                            System.out.println("You don't have any potions");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println("You drank a potion");
+                            System.out.println("Health restored by 30 points (max 100)");
+                            if (health < 70)
+                            {
+                                health += 30;
+                            }
+                            else
+                            {
+                                health = 100;
+                            }
+                        }
+                        checkPosition();
+                        break;
                     case "LEAVE":
                         System.out.println("You decided to leave the village outskirts");
                         System.out.println();
@@ -622,7 +845,7 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("These commands are available: ");
-                        System.out.println("Leave");
+                        System.out.println("Listen, Look around, Drink Potion, Leave");
                         System.out.println();
                         checkPosition();
                         break;
@@ -638,6 +861,43 @@ public class Game
             {
                 switch (input)
                 {
+                    case "LISTEN":
+                        System.out.println("You begin to listen");
+                        System.out.println("There is no sound of animals in this place");
+                        System.out.println("A few crickets decides to play the song of their people");
+                        System.out.println("You can't hear any threat in the area");
+                        checkPosition();
+                        break;
+                    case "LOOK AROUND":
+                        System.out.println("You decide to take a look around");
+                        System.out.println("Looking around you find a few coins and a red drink of some sort");
+                        System.out.println("This place seems perfectly at peace, despite all the destruction");
+                        System.out.println();
+                        checkPosition();
+                        coins += 23;
+                        healthPotion += 2;
+                        break;
+                    case "DRINK POTION" :
+                        if (healthPotion == 0)
+                        {
+                            System.out.println("You don't have any potions");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println("You drank a potion");
+                            System.out.println("Health restored by 30 points (max 100)");
+                            if (health < 70)
+                            {
+                                health += 30;
+                            }
+                            else
+                            {
+                                health = 100;
+                            }
+                        }
+                        checkPosition();
+                        break;
                     case "LEAVE":
                         System.out.println("You decided to leave the village outskirts");
                         System.out.println();
@@ -648,7 +908,7 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("These commands are available: ");
-                        System.out.println("Leave");
+                        System.out.println("Listen, Look around, Drink Potion, Leave");
                         System.out.println();
                         checkPosition();
                         break;
@@ -664,6 +924,27 @@ public class Game
             {
                 switch (input)
                 {
+                    case "DRINK POTION" :
+                        if (healthPotion == 0)
+                        {
+                            System.out.println("You don't have any potions");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println("You drank a potion");
+                            System.out.println("Health restored by 30 points (max 100)");
+                            if (health < 70)
+                            {
+                                health += 30;
+                            }
+                            else
+                            {
+                                health = 100;
+                            }
+                        }
+                        checkPosition();
+                        break;
                     case "LEAVE":
                         System.out.println("You decided to leave silently to not wake the ogre");
                         System.out.println();
@@ -674,7 +955,7 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("These commands are available: ");
-                        System.out.println("Leave");
+                        System.out.println("Drink Potion, Leave");
                         System.out.println();
                         checkPosition();
                         break;
@@ -690,6 +971,27 @@ public class Game
             {
                 switch (input)
                 {
+                    case "DRINK POTION" :
+                        if (healthPotion == 0)
+                        {
+                            System.out.println("You don't have any potions");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println("You drank a potion");
+                            System.out.println("Health restored by 30 points (max 100)");
+                            if (health < 70)
+                            {
+                                health += 30;
+                            }
+                            else
+                            {
+                                health = 100;
+                            }
+                        }
+                        checkPosition();
+                        break;
                     case "LEAVE":
                         System.out.println("You decided to leave the boat resting on the shore");
                         System.out.println();
@@ -700,7 +1002,7 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("These commands are available: ");
-                        System.out.println("Leave");
+                        System.out.println("Drink Potion, Leave");
                         System.out.println();
                         checkPosition();
                         break;
@@ -716,6 +1018,36 @@ public class Game
             {
                 switch (input)
                 {
+                    case "INSPECT LEAVES":
+                        System.out.println("You decide to inspect the pile of leaves");
+                        System.out.println("As you move closer, the ground beneath you vanishes");
+                        System.out.println("You plumet into a deep hole filled with spikes");
+                        System.out.println("A large spike pierces your heart");
+                        System.out.println("You have died");
+                        System.out.println();
+                        died();
+                        break;
+                    case "DRINK POTION" :
+                        if (healthPotion == 0)
+                        {
+                            System.out.println("You don't have any potions");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println("You drank a potion");
+                            System.out.println("Health restored by 30 points (max 100)");
+                            if (health < 70)
+                            {
+                                health += 30;
+                            }
+                            else
+                            {
+                                health = 100;
+                            }
+                        }
+                        checkPosition();
+                        break;
                     case "LEAVE":
                         System.out.println("You decided to avoid the pile of leaves");
                         System.out.println();
@@ -726,7 +1058,7 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("These commands are available: ");
-                        System.out.println("Leave");
+                        System.out.println("Drink Potion, Leave");
                         System.out.println();
                         checkPosition();
                         break;
@@ -747,7 +1079,7 @@ public class Game
     {
         System.out.println();
         System.out.println("-----------------------------------");
-        System.out.println("Health: " + health + "      Coins: " + coins);
+        System.out.println("Health: " + health + "  Coins: " + coins + "  Potions: " + healthPotion);
         if (sword == true)
         {
             System.out.println("----------Sword Equipped-----------");
@@ -850,6 +1182,7 @@ public class Game
         yPos = 0;
         health = 100;
         coins = 0;
+        healthPotion = 0;
         
         startGame();
     }
@@ -858,7 +1191,7 @@ public class Game
     {
         System.out.println();
         System.out.println("You have died and can not continue your adventure");
-        System.out.println("The system will not reset your stats, and let you regain your life");
+        System.out.println("The system will now reset your stats, and let you regain your life");
         System.out.println("May you survive your future adventures");
         System.out.println();
         resetInfo();
