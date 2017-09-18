@@ -18,6 +18,8 @@ public class Game
     boolean swordLocation, shieldLocation, villageLocation, info4Location;
     //goblin ambush bools
     boolean goblinAmbush, swordGoblinDead;
+    //boolean to prevent an event to be forced again if you write the wrong direction/illegal input
+    boolean noEventStart;
     
     //constructor for the game data
     public Game()
@@ -29,6 +31,7 @@ public class Game
         map = false;
         event = false;
         cabinWindowBroken = false;
+        noEventStart = false;
         info1 = false;
         info2 = false;
         swordLocation = false;
@@ -87,7 +90,7 @@ public class Game
     {
         printStats();
         //Cabin event
-        if (xPos == 1 && yPos == -1)
+        if (xPos == 1 && yPos == -1 && noEventStart == false)
         {
             System.out.println();
             System.out.println("You've found a cabin");
@@ -97,7 +100,7 @@ public class Game
             getInfo();
         }
         //forest sword event
-        if (xPos == 2 && yPos == 7)
+        if (xPos == 2 && yPos == 7 && noEventStart == false)
         {
             System.out.println();
             System.out.println("You've found a forest shrine");
@@ -107,7 +110,7 @@ public class Game
             getInfo();
         }
         //lost temple shield event
-        if (xPos == -3 && yPos == 4)
+        if (xPos == -3 && yPos == 4 && noEventStart == false)
         {
             System.out.println();
             System.out.println("You've found a temple to forgotten gods");
@@ -117,7 +120,7 @@ public class Game
             getInfo();
         }
         //lighthouse event
-        if (xPos == -4 && yPos == -4)
+        if (xPos == -4 && yPos == -4 && noEventStart == false)
         {
             System.out.println();
             System.out.println("You've found a lighthouse");
@@ -128,7 +131,7 @@ public class Game
             getInfo();
         }
         //jungle health refresh event
-        if (xPos == -5 && yPos == -2)
+        if (xPos == -5 && yPos == -2 && noEventStart == false)
         {
             System.out.println();
             System.out.println("You've found a jungle shrine");
@@ -138,7 +141,7 @@ public class Game
             getInfo();
         }
         //village outskirt north event
-        if (xPos == 5 && yPos == 1)
+        if (xPos == 5 && yPos == 1 && noEventStart == false)
         {
             System.out.println();
             System.out.println("You've entered the northern village outskirts");
@@ -148,7 +151,7 @@ public class Game
             getInfo();
         }
         //village outskirt south event
-        if (xPos == 5 && yPos == -1)
+        if (xPos == 5 && yPos == -1 && noEventStart == false)
         {
             System.out.println();
             System.out.println("You've entered the southern village outskirts");
@@ -158,7 +161,7 @@ public class Game
             getInfo();
         }
         //village event
-        if (xPos == 5 && yPos == 0)
+        if (xPos == 5 && yPos == 0 && noEventStart == false)
         {
             System.out.println();
             System.out.println("You've entered the village");
@@ -169,7 +172,7 @@ public class Game
             getInfo();
         }
         //boat escape event
-        if(xPos == -1 && yPos == -5)
+        if(xPos == -1 && yPos == -5 && noEventStart == false)
         {
             System.out.println();
             System.out.println("You've found a boat");
@@ -179,7 +182,7 @@ public class Game
             getInfo();
         }
         //leaves trap event
-        if(xPos == 2 && yPos == 2)
+        if(xPos == 2 && yPos == 2 && noEventStart == false)
         {
             System.out.println();
             System.out.println("You've found a pile of leaves");
@@ -214,24 +217,28 @@ public class Game
                     case "NORTH":
                         System.out.println("You went north");
                         System.out.println();
+                        noEventStart = false;
                         newInput = false;
                         yPos += 1;
                         break;
                     case "SOUTH":
                         System.out.println("You went south");
                         System.out.println();
+                        noEventStart = false;
                         newInput = false;
                         yPos -= 1;
                         break;
                     case "EAST":
                         System.out.println("You went east");
                         System.out.println();
+                        noEventStart = false;
                         newInput = false;
                         xPos += 1;
                         break;
                     case "WEST":
                         System.out.println("You went west");
                         System.out.println();
+                        noEventStart = false;
                         newInput = false;
                         xPos -= 1;
                         break;
@@ -268,6 +275,7 @@ public class Game
         //What you want to do at events
         else
         {
+            noEventStart = true;
             //cabin event
             while (newInput == true && xPos == 1 && yPos == -1)
             {
@@ -303,6 +311,7 @@ public class Game
                             System.out.println("As you open the window, you manage to cut yourself");
                             System.out.println("-15 Health");
                             System.out.println();
+                            cabinWindowBroken = true;
                             health -= 15;
                             eventCabin();
                         }
@@ -746,6 +755,10 @@ public class Game
         else if (shield == true)
         {
             System.out.println("---------Shield Equipped-----------");
+        }
+        else if (armor == true)
+        {
+            System.out.println("---------Armor Equipped-----------");
         }
         
         System.out.println("-----------------------------------");
