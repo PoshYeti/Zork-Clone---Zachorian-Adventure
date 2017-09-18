@@ -1,6 +1,6 @@
 /**
  * @author (Richard W. Zacho)
- * @version (1.0.0.0)
+ * @version (1.0.1.0)
  */
 
 import java.util.Scanner;
@@ -11,11 +11,13 @@ public class Game
     //The X and Y pos of the player
     int xPos, yPos, health, coins;
     //True for new direction, or items, or if the switch is related to an event
-    boolean newInput, sword, shield, map, event;
+    boolean newInput, sword, shield, armor, map, event, cabinWindowBroken;
     //Different knowledge you can gain/display
     boolean info1, info2;
     //Location 1 = sword, 2 = shield, 3 = old temple, 4 = village
     boolean swordLocation, shieldLocation, villageLocation, info4Location;
+    //goblin ambush bools
+    boolean goblinAmbush, swordGoblinDead;
     
     //constructor for the game data
     public Game()
@@ -23,14 +25,18 @@ public class Game
         newInput = true;
         sword = false;
         shield = false;
+        armor = false;
         map = false;
         event = false;
+        cabinWindowBroken = false;
         info1 = false;
         info2 = false;
         swordLocation = false;
         shieldLocation = false;
         villageLocation = false;
         info4Location = false;
+        goblinAmbush = false;
+        swordGoblinDead = false;
         
         xPos = 0;
         yPos = 0;
@@ -275,18 +281,38 @@ public class Game
                         checkPosition();
                         break;
                     case "ENTER":
-                        System.out.println("The door is locked");
-                        System.out.println("There has to be some other way in");
-                        System.out.println();
-                        checkPosition();
+                        if (cabinWindowBroken == false)
+                        {
+                            System.out.println("The door is locked");
+                            System.out.println("There has to be some other way in");
+                            System.out.println();
+                            checkPosition();
+                        }
+                        else
+                        {
+                            System.out.println("The door is open");
+                            System.out.println("You decide to walk in");
+                            System.out.println();
+                            eventCabin();
+                        }
                         break;
                     case "BREAK WINDOW":
-                        System.out.println("You manage to break the glass and open the window");
-                        System.out.println("As you open the window, you manage to cut yourself");
-                        System.out.println("-15 Health");
-                        System.out.println();
-                        health -= 15;
-                        eventCabin();
+                        if (cabinWindowBroken == false)
+                        {
+                            System.out.println("You manage to break the glass and open the window");
+                            System.out.println("As you open the window, you manage to cut yourself");
+                            System.out.println("-15 Health");
+                            System.out.println();
+                            health -= 15;
+                            eventCabin();
+                        }
+                        else
+                        {
+                            System.out.println("The door is open");
+                            System.out.println("Maybe you should leave the window as it is");
+                            System.out.println();
+                            checkPosition();
+                        }
                         break;
                     case "YELL":
                         System.out.println("No one is answering");
@@ -322,12 +348,33 @@ public class Game
                 switch (input)
                 {
                     case "TAKE SWORD":
-                        System.out.println("You've decide to go up to the shrine and pull the sword");
-                        System.out.println("The sword vibrates as you pull it from the stone");
-                        System.out.println("You've aquired a sword");
-                        sword = true;
-                        event = false;
+                        if (sword = false)
+                        {
+                            System.out.println("You've decide to go up to the shrine and pull the sword");
+                            System.out.println("The sword vibrates as you pull it from the stone");
+                            System.out.println("You've aquired a sword");
+                            sword = true;
+                            goblinAmbush();
+                        }
+                        else
+                        {
+                            System.out.println("You've already picked up the sword");
+                        }
                         getInfo();
+                        break;
+                    case "LISTEN":
+                        System.out.println("You begin to listen");
+                        System.out.println("The sounds of birds pierce the air");
+                        System.out.println("A few crickets decides to play the song of their people");
+                        System.out.println("You can't hear any threat in the area");
+                        checkPosition();
+                        break;
+                    case "LOOK AROUND":
+                        System.out.println("You decide to take a look around");
+                        System.out.println("There is nothing on the ground out of the usual");
+                        System.out.println("You think you see something shining in the trees");
+                        System.out.println();
+                        checkPosition();
                         break;
                     case "LEAVE":
                         System.out.println("You decided to leave forest shrine");
@@ -339,7 +386,7 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("These commands are available: ");
-                        System.out.println("Leave");
+                        System.out.println("Take Sword, Listen ,Leave");
                         System.out.println();
                         checkPosition();
                         break;
@@ -350,6 +397,87 @@ public class Game
                         break;
                 }
             }
+            
+            //The event for the goblin ambush of sword collect
+            while (goblinAmbush = true)
+            {
+                switch (input)
+                {
+                    case "FLEE":
+                        System.out.println();
+                        System.out.println("You try to flee, on of the goblins stabs you with a spear");
+                        System.out.println("You loose 15 points of health");
+                        if (shield == true)
+                        {
+                            System.out.println("Luckily you had aquired a shield earlier");
+                            System.out.println("Damage reduced by 10 points");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            health -= 15;
+                        }
+                        getInfo();
+                        break;
+                    case "FIGHT SPEAR GOBLIN":
+                        if (swordGoblinDead = false)
+                        {
+                            System.out.println();
+                            System.out.println("You decide to fight the spear goblin");
+                            System.out.println("With a swing of your newfound sword the goblin is sliced in half");
+                            System.out.println("The sword goblin is terrified and flees into the forest");
+                            System.out.println("Looting the goblin gives you a set of armor and 14 coins");
+                            armor = true;
+                            System.out.println();
+                            goblinAmbush = false;
+                        }
+                        else
+                        {
+                            System.out.println();
+                            System.out.println("You now turn to fight the spear goblin");
+                            System.out.println("With a slice of your sword, the goblins head is severed from it shoulders");
+                            System.out.println("Looting the goblin gives you a set of armor and 14 coins");
+                            armor = true;
+                            System.out.println();
+                            goblinAmbush = false;
+                        }
+                        checkPosition();
+                        break;
+                    case "FIGHT SWORD GOBLIN":
+                        if (swordGoblinDead == false)
+                        {
+                            System.out.println();
+                            System.out.println("You decide to fight the sword goblin");
+                            System.out.println("With a swing of your newfound sword the goblin is sliced in half");
+                            System.out.println("The spear goblin thrusts his spear into your leg");
+                            System.out.println("You loose 15 points of health");
+                            System.out.println();
+                        }
+                        else
+                        {
+                            System.out.println();
+                            System.out.println("This goblin is already dead");
+                            System.out.println();
+                        }
+                        checkPosition();
+                        break;
+                    case "PLEAD FOR MERCY":
+                        System.out.println();
+                        System.out.println("You go down on your knees and start to plead");
+                        System.out.println("The goblins laugh at your attempt to plead for your life");
+                        System.out.println("The sword goblin slices quickly at your neck");
+                        System.out.println("Your head is severed from your body and tumbles towards the ground");
+                        System.out.println("You have died");
+                        died();
+                        break;
+                    default:
+                        System.out.println("Your character doesn't know what that means");
+                        System.out.println();
+                        checkPosition();
+                        break;
+                }
+            }
+                
             //lost temple shield event
             while (newInput == true && xPos == -3 && yPos == 4)
             {
@@ -437,7 +565,7 @@ public class Game
                         System.out.println();
                         checkPosition();
                         break;
-                    default:
+                        default:
                         System.out.println("Your character doesn't know what that means");
                         System.out.println();
                         checkPosition();
@@ -649,6 +777,17 @@ public class Game
         getInfo();
     }
     
+    private void goblinAmbush()
+    {
+        System.out.println();
+        System.out.println("With a flash, two goblins leaps from the trees and lands behind you");
+        System.out.println("You notice one is equiped with a spear, and the other with a sword");
+        System.out.println("What do you want to do?");
+        System.out.println();
+        goblinAmbush = true;
+        getInfo();
+    }
+    
     private void notebook()
     {
         System.out.println("You current coordinates are: " + xPos + "x and " + yPos + "y");
@@ -681,14 +820,18 @@ public class Game
         newInput = true;
         sword = false;
         shield = false;
+        armor = false;
         map = false;
         event = false;
+        cabinWindowBroken = false;
         info1 = false;
         info2 = false;
         swordLocation = false;
         shieldLocation = false;
         villageLocation = false;
         info4Location = false;
+        goblinAmbush = false;
+        swordGoblinDead = false;
         
         xPos = 0;
         yPos = 0;
@@ -696,5 +839,15 @@ public class Game
         coins = 0;
         
         startGame();
+    }
+    
+    private void died()
+    {
+        System.out.println();
+        System.out.println("You have died and can not continue your adventure");
+        System.out.println("The system will not reset your stats, and let you regain your life");
+        System.out.println("May you survive your future adventures");
+        System.out.println();
+        resetInfo();
     }
 }
