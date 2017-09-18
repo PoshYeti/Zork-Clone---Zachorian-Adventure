@@ -55,7 +55,7 @@ public class Game
         xPos = 0;
         yPos = 0;
         health = 100;
-        coins = 1000;
+        coins = 0;
         healthPotion = 0;
     }
     
