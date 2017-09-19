@@ -1290,7 +1290,7 @@ public class Game
         System.out.println();
         swordLocation = true;
         event = false;
-        getInfo();
+        checkPosition();
     }
     
     private void goblinAmbush()
@@ -1315,17 +1315,17 @@ public class Game
             System.out.println("You may find the sword at coordinates: 2x, 7y");
         }
         
-        else if(shieldLocation == true)
+        if(shieldLocation == true)
         {
             System.out.println("You may find the forgotten temple of the old gods at coordinates: -3x, 4y");
         }
         
-        else if(villageLocation == true)
+        if(villageLocation == true)
         {
             System.out.println("You may find the village at coordinates: 5x, 0y");
         }
         
-        else if(shopLocation == true)
+        if(shopLocation == true)
         {
             System.out.println("You may find the local shop at coordinates: 4x, -4y");
         }
