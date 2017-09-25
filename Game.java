@@ -11,9 +11,7 @@ public class Game
     //The X and Y pos of the player
     int xPos, yPos, damage, health, coins, healthPotion;
     //True for new direction, or items, or if the switch is related to an event
-    boolean newInput, sword, shield, armor, map, event, cabinWindowBroken;
-    //Different knowledge you can gain/display
-    boolean info1, info2;
+    boolean newInput, sword, shield, armor, event, cabinWindowBroken;
     //Location 1 = sword, 2 = shield, 3 = old temple, 4 = village
     boolean swordLocation, shieldLocation, villageLocation, shopLocation;
     //goblin ambush bools
@@ -22,7 +20,7 @@ public class Game
     boolean noEventStart;
     //ogre event
     int ogreHealth;
-    boolean ogreSleep, ogreDead;
+    boolean ogreSleep, ogreDead, ogreRing, ogreCrippled;
     
     //constructor for the game data
     public Game()
@@ -32,13 +30,9 @@ public class Game
         shield = false;
         armor = false;
         damage = 10;
-        map = false;
         event = false;
         cabinWindowBroken = false;
         noEventStart = false;
-        //info
-        info1 = false;
-        info2 = false;
         //locations and info
         swordLocation = false;
         shieldLocation = false;
@@ -51,6 +45,7 @@ public class Game
         ogreHealth = 100;
         ogreSleep = true;
         ogreDead = false;
+        ogreRing = false;
         
         xPos = 0;
         yPos = 0;
@@ -162,7 +157,7 @@ public class Game
             if (xPos == -3 && yPos == 4 && noEventStart == false)
             {
                 System.out.println();
-                System.out.println("You've found a temple to forgotten gods");
+                System.out.println("You've found a temple of forgotten gods");
                 System.out.println("There appears to be a large stone door blocking your path");
                 System.out.println("What would you like to do?");
                 System.out.println();
@@ -255,9 +250,9 @@ public class Game
                 System.out.println("Welcome to the blue lagoon shop");
                 System.out.println("We have many wares, what might interest you?");
                 System.out.println("-----------------------------------------");
-                System.out.println("-      Potion, +30 health, 15 coins     -");
+                System.out.println("-      Potion, +25 health, 15 coins     -");
                 System.out.println("- Restore my health to 100%, 15 coins   -");
-                System.out.println("- Shield, 10 damage reduction, 40 coins -");
+                System.out.println("- Shield, 5 damage reduction, 40 coins  -");
                 System.out.println("- Sword, +20 damage increase, 40 coins  -");
                 System.out.println("-----------------------------------------");
                 System.out.println();
@@ -335,10 +330,10 @@ public class Game
                         else
                         {
                             System.out.println("You drank a potion");
-                            System.out.println("Health restored by 30 points (max 100)");
+                            System.out.println("Health restored by 25 points (max 100)");
                             if (health < 70)
                             {
-                                health += 30;
+                                health += 25;
                             }
                             else
                             {
@@ -349,7 +344,7 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("You can go in these directions: ");
-                        System.out.println("North, South, East, West, Drink Potion");
+                        System.out.println("North, South, East, West, Drink Potion, Notebook");
                         System.out.println();
                         checkPosition();
                         break;
@@ -362,6 +357,21 @@ public class Game
                         System.out.println();
                         System.out.println();
                         resetInfo();
+                        break;
+                    case "LAZY":
+                        System.out.println();
+                        System.out.println();
+                        System.out.println();
+                        System.out.println("LAZY MODE ACTIVATED");
+                        System.out.println();
+                        System.out.println();
+                        System.out.println();
+                        health = 1000;
+                        healthPotion = 10;
+                        sword = true;
+                        shield = true;
+                        armor = true;
+                        checkPosition();
                         break;
                     default:
                         System.out.println("You have to write the correct command");
@@ -447,10 +457,10 @@ public class Game
                         else
                         {
                             System.out.println("You drank a potion");
-                            System.out.println("Health restored by 30 points (max 100)");
+                            System.out.println("Health restored by 25 points (max 100)");
                             if (health < 70)
                             {
-                                health += 30;
+                                health += 25;
                             }
                             else
                             {
@@ -522,10 +532,10 @@ public class Game
                         else
                         {
                             System.out.println("You drank a potion");
-                            System.out.println("Health restored by 30 points (max 100)");
+                            System.out.println("Health restored by 25 points (max 100)");
                             if (health < 70)
                             {
-                                health += 30;
+                                health += 25;
                             }
                             else
                             {
@@ -636,10 +646,10 @@ public class Game
                         else
                         {
                             System.out.println("You drank a potion");
-                            System.out.println("Health restored by 30 points (max 100)");
+                            System.out.println("Health restored by 25 points (max 100)");
                             if (health < 70)
                             {
-                                health += 30;
+                                health += 25;
                             }
                             else
                             {
@@ -683,10 +693,10 @@ public class Game
                         else
                         {
                             System.out.println("You drank a potion");
-                            System.out.println("Health restored by 30 points (max 100)");
+                            System.out.println("Health restored by 25 points (max 100)");
                             if (health < 70)
                             {
-                                health += 30;
+                                health += 25;
                             }
                             else
                             {
@@ -763,10 +773,10 @@ public class Game
                         else
                         {
                             System.out.println("You drank a potion");
-                            System.out.println("Health restored by 30 points (max 100)");
+                            System.out.println("Health restored by 25 points (max 100)");
                             if (health < 70)
                             {
-                                health += 30;
+                                health += 25;
                             }
                             else
                             {
@@ -800,6 +810,14 @@ public class Game
             {
                 switch (input)
                 {
+                    case "SEARCH POOL":
+                        System.out.println("You decide to search the pool");
+                        System.out.println("There's something shiny at the bottom of the shallow pool");
+                        System.out.println("You've aquired a giant ring");
+                        System.out.println("The ring is ingraved with the name Ogrexa");
+                        ogreRing = true;
+                        checkPosition();
+                        break;
                     case "LISTEN":
                         System.out.println("You begin to listen");
                         System.out.println("The sounds of birds pierce the air");
@@ -819,6 +837,10 @@ public class Game
                         System.out.println("A refreshing surge is felt through your body");
                         System.out.println("Your health have been restored");
                         System.out.println();
+                        if (ogreRing = false)
+                        {
+                            System.out.println("There seems to be something shiny in the bottom of the pool");
+                        }
                         health = 100;
                         checkPosition();
                         break;
@@ -831,10 +853,10 @@ public class Game
                         else
                         {
                             System.out.println("You drank a potion");
-                            System.out.println("Health restored by 30 points (max 100)");
+                            System.out.println("Health restored by 25 points (max 100)");
                             if (health < 70)
                             {
-                                health += 30;
+                                health += 25;
                             }
                             else
                             {
@@ -852,7 +874,7 @@ public class Game
                         break;
                     case "HINT":
                         System.out.println("These commands are available: ");
-                        System.out.println("Listen, Look around, Drink Water, Drink Potion, Leave");
+                        System.out.println("Search Pool, Listen, Look around, Drink Water, Drink Potion, Leave");
                         System.out.println();
                         checkPosition();
                         break;
@@ -893,10 +915,10 @@ public class Game
                         else
                         {
                             System.out.println("You drank a potion");
-                            System.out.println("Health restored by 30 points (max 100)");
+                            System.out.println("Health restored by 25 points (max 100)");
                             if (health < 70)
                             {
-                                health += 30;
+                                health += 25;
                             }
                             else
                             {
@@ -955,10 +977,10 @@ public class Game
                         else
                         {
                             System.out.println("You drank a potion");
-                            System.out.println("Health restored by 30 points (max 100)");
+                            System.out.println("Health restored by 25 points (max 100)");
                             if (health < 70)
                             {
-                                health += 30;
+                                health += 25;
                             }
                             else
                             {
@@ -990,47 +1012,213 @@ public class Game
             //village/ogre event
             while (newInput == true && xPos == 5 && yPos == 0)
             {
-                switch (input)
+                if (ogreHealth > 0)
                 {
-                    case "DRINK POTION" :
-                        if (healthPotion == 0)
-                        {
-                            System.out.println("You don't have any potions");
-                            System.out.println();
-                        }
-                        else
-                        {
-                            System.out.println("You drank a potion");
-                            System.out.println("Health restored by 30 points (max 100)");
-                            if (health < 70)
+                    switch (input)
+                    {
+                        case "POKE OGRE":
+                            if (ogreSleep == true)
                             {
-                                health += 30;
+                                System.out.println("You decide to poke the ogre");
+                                System.out.println("As you move closer, you can hear the ogre snoring");
+                                System.out.println("You poke the ogre");
+                                System.out.println("The ogre wakes up with a roar and squashes you into the ground");
+                                System.out.println("You have died");
+                                System.out.println();
+                                died();
+                                break;
                             }
                             else
                             {
-                                health = 100;
+                                System.out.println("The ogre is not asleep, you can't poke it");
+                                System.out.println();
+                                checkPosition();
+                                break;
                             }
-                        }
-                        checkPosition();
-                        break;
-                    case "LEAVE":
-                        System.out.println("You decided to leave silently to not wake the ogre");
-                        System.out.println();
-                        //stops the event
-                        event = false;
-                        getInfo();
-                        break;
-                    case "HINT":
-                        System.out.println("These commands are available: ");
-                        System.out.println("Drink Potion, Leave");
-                        System.out.println();
-                        checkPosition();
-                        break;
-                    default:
-                        System.out.println("Your character doesn't know what that means");
-                        System.out.println();
-                        checkPosition();
-                        break;
+                        case "STAB OGRE NECK":
+                            if (sword == true && ogreSleep == true)
+                            {
+                                System.out.println("You run up the the ogre and stab him in the neck");
+                                System.out.println("The ogre wakes up with a roar, and hits you with the back of his giant hand");
+                                System.out.println("You're thrown a few meters backward, and land on the ground");
+                                System.out.println("The ogre screams in pain, as the sword is stuck in his neck");
+                                System.out.println("You loose 50 points of health, ogre looses 50 points of health");
+                                System.out.println();
+                                health -= 50;
+                                if (shield == true)
+                                {
+                                    System.out.println("you shield gives you 5 damage reduction");
+                                    health += 5;
+                                }
+                                if (shield == true)
+                                {
+                                    System.out.println("you armor gives you 10 damage reduction");
+                                    health += 10;
+                                }
+                                ogreHealth -= 50;
+                                sword = false;
+                                ogreSleep = false;
+                                checkPosition();
+                                break;
+                            }
+                            else
+                            {
+                                System.out.println("The ogre is not asleep, you can't reach the neck");
+                                System.out.println();
+                                checkPosition();
+                                break;
+                            }
+                        case "SLICE OGRE KNEES":
+                            if (sword == true && ogreSleep == true && ogreCrippled == false)
+                            {
+                                System.out.println("You sneak up the the sleeping ogre");
+                                System.out.println("With a quick slice, you cripple the ogres legs");
+                                System.out.println("The ogre wakes up, screaming in pain, and hits you with the back of his hand");
+                                System.out.println("You get thrown a few meters backward, and land of the ground");
+                                System.out.println("You loose 50 poins of health, the ogre looses 30 and is crippled");
+                                System.out.println();
+                                health -= 50;
+                                if (shield == true)
+                                {
+                                    System.out.println("you shield gives you 5 damage reduction");
+                                    health += 5;
+                                }
+                                if (shield == true)
+                                {
+                                    System.out.println("you armor gives you 10 damage reduction");
+                                    health += 10;
+                                }
+                                ogreHealth -=30;
+                                ogreCrippled = true;
+                                checkPosition();
+                                break;
+                            }
+                            if (sword == true && ogreSleep == false && ogreCrippled == false)
+                            {
+                                System.out.println("You rush towards the ogre");
+                                System.out.println("With a quick slice, you try to cripple the ogres legs");
+                                System.out.println("The ogre is too fast for you, and grabs you and tears your body apart");
+                                System.out.println("Your body is scattered across the destroyed village");
+                                System.out.println();
+                                died();
+                                break;
+                            }
+                            if (ogreSleep == false && ogreCrippled == true)
+                            {
+                                System.out.println("The ogre is already crippled");
+                                checkPosition();
+                                break;
+                            }
+                        case "ATTACK OGRE":
+                            if (sword == false)
+                            {
+                                System.out.println("You rush to attack the ogre");
+                                System.out.println("You suddenly realize you got no sword");
+                                System.out.println("The ogre grabs your body and tears it apart");
+                                System.out.println("Your body is scattered across the destroyed village");
+                                System.out.println();
+                                died();
+                                break;
+                            }
+                            if (sword == true && ogreCrippled == false)
+                            {
+                                System.out.println("You rush to attack the ogre");
+                                System.out.println("With a swing of your sword, you slice at the ogre");
+                                System.out.println("The ogre strikes you with the back of his hand, as you try to dogde his blows");
+                                System.out.println("Ogre looses 15 health, you loose 25 health");
+                                System.out.println();
+                                ogreHealth -= 15;
+                                health -= 25;
+                                if (shield == true)
+                                {
+                                    System.out.println("you shield gives you 5 damage reduction");
+                                    health += 5;
+                                }
+                                if (shield == true)
+                                {
+                                    System.out.println("you armor gives you 10 damage reduction");
+                                    health += 10;
+                                }
+                                checkPosition();
+                                break;
+                            }
+                            if (sword == true && ogreCrippled == true)
+                            {
+                                System.out.println("You rush to attack the ogre");
+                                System.out.println("With a swing of your sword, you slice at the ogre");
+                                System.out.println("The ogre tries to strike you with the back of his hand");
+                                System.out.println("The ogre is crippled and is to slow to hit you");
+                                System.out.println("The ogre looses 20 points of health");
+                                System.out.println();
+                                ogreHealth -= 20;
+                                checkPosition();
+                                break;
+                            }
+                        case "YELL":
+                            System.out.println("You decide to yell at the ogre");
+                            System.out.println("The ogre wakes up");
+                            System.out.println("You're the one who stole my precious ring! he yelled");
+                            System.out.println("Prepare to die!");
+                            System.out.println();
+                            if (ogreRing == true)
+                            {
+                                System.out.println("I found your ring in the pool of a forest shrine");
+                                System.out.println("I will give it to you, if you leave this land");
+                                System.out.println("You give the ring the ogre");
+                                System.out.println("The ogre leaves the city, heading towards to forest");
+                                System.out.println("You hope you'll never face the ogre again");
+                                System.out.println();
+                                won();
+                            }
+                            checkPosition();
+                            break;
+                        case "DRINK POTION" :
+                            if (healthPotion == 0)
+                            {
+                                System.out.println("You don't have any potions");
+                                System.out.println();
+                            }
+                            else
+                            {
+                                System.out.println("You drank a potion");
+                                System.out.println("Health restored by 25 points (max 100)");
+                                System.out.println();
+                                if (health < 70)
+                                {
+                                    health += 25;
+                                }
+                                else
+                                {
+                                    health = 100;
+                                }
+                            }
+                            checkPosition();
+                            break;
+                        case "LEAVE":
+                            System.out.println("You decided to avoid the pile of leaves");
+                            System.out.println();
+                            //stops the event
+                            event = false;
+                            getInfo();
+                            break;
+                        case "HINT":
+                            System.out.println("These commands are available: ");
+                            System.out.println("Poke Ogre, Stab Ogre Neck, Slice Ogre Knees");
+                            System.out.println("Attack Ogre, Yell, Drink Potion, Leave");
+                            System.out.println();
+                            checkPosition();
+                            break;
+                        default:
+                            System.out.println("Your character doesn't know what that means");
+                            System.out.println();
+                            checkPosition();
+                            break;
+                    }
+                }
+                else
+                {
+                    System.out.println("The ogre is gone! You are victorious!");
+                    won();
                 }
             }
             //boat escape event
@@ -1058,9 +1246,9 @@ public class Game
                         System.out.println("The damage was discovered almost too late");
                         System.out.println("Your boat sinks, and you begin to swim towards the shore");
                         System.out.println("On your way in, you scratch yourself on a few corals");
-                        System.out.println("Health minus 10");
+                        System.out.println("Health minus 25");
                         System.out.println("Exhausted you barely make it to the shore");
-                        health -= 10;
+                        health -= 25;
                         getInfo();
                         break;
                     case "DRINK POTION":
@@ -1072,10 +1260,10 @@ public class Game
                         else
                         {
                             System.out.println("You drank a potion");
-                            System.out.println("Health restored by 30 points (max 100)");
+                            System.out.println("Health restored by 25 points (max 100)");
                             if (health < 70)
                             {
-                                health += 30;
+                                health += 25;
                             }
                             else
                             {
@@ -1127,10 +1315,10 @@ public class Game
                         else
                         {
                             System.out.println("You drank a potion");
-                            System.out.println("Health restored by 30 points (max 100)");
+                            System.out.println("Health restored by 25 points (max 100)");
                             if (health < 70)
                             {
-                                health += 30;
+                                health += 25;
                             }
                             else
                             {
@@ -1310,7 +1498,7 @@ public class Game
         System.out.println("You current coordinates are: " + xPos + "x and " + yPos + "y");
         System.out.println();
         
-        if (info1 == true && swordLocation == true)
+        if (swordLocation == true)
         {
             System.out.println("You may find the sword at coordinates: 2x, 7y");
         }
@@ -1338,11 +1526,8 @@ public class Game
         sword = false;
         shield = false;
         armor = false;
-        map = false;
         event = false;
         cabinWindowBroken = false;
-        info1 = false;
-        info2 = false;
         swordLocation = false;
         shieldLocation = false;
         villageLocation = false;
@@ -1365,6 +1550,16 @@ public class Game
     {
         System.out.println();
         System.out.println("You have died and can not continue your adventure");
+        System.out.println("The system will now reset your stats, and let you regain your life");
+        System.out.println("May you survive your future adventures");
+        System.out.println();
+        resetInfo();
+    }
+    
+    private void won()
+    {
+        System.out.println();
+        System.out.println("You have completed the game, and may play again if you would like");
         System.out.println("The system will now reset your stats, and let you regain your life");
         System.out.println("May you survive your future adventures");
         System.out.println();
